@@ -6,7 +6,10 @@
 
 package chain
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestChain(t *testing.T) {
 	adHandler := &AdHandler{}
@@ -17,4 +20,11 @@ func TestChain(t *testing.T) {
 	yellowHandler.handler = sensitiveHandler
 
 	adHandler.Handle("我是正常内容，我是广告，我是涉黄，我是敏感词，我是正常内容")
+}
+
+func TestChainFunc(t *testing.T) {
+	fmt.Println(GetValueByChain("我是正常内容，我是广告，我是涉黄，我是敏感词，我是正常内容",
+		AdHandlerFunc,
+		SensitiveHandlerFunc,
+		YellowHandlerFunc))
 }
