@@ -6,35 +6,21 @@
 
 package chain
 
-import "strings"
+//HandlerFunc 责任链处理函数
+type HandlerFunc func([]interface{}) ([]interface{}, bool)
 
-type HandlerFunc func(string) (string, bool)
-
-func AdHandlerFunc(content string) (string, bool) {
-	newContent := strings.Replace(content, "广告", "**", 1)
-	// try get value from memory cache
-	return newContent, false
+//ResultHandler 放到最后，处理链的结果
+type ResultHandler struct {
+	Params string
 }
 
-func YellowHandlerFunc(content string) (string, bool) {
-	newContent := strings.Replace(content, "涉黄", "**", 1)
-	// try get value from redis
-	return newContent, false
-}
-
-func SensitiveHandlerFunc(content string) (string, bool) {
-	newContent := strings.Replace(content, "敏感词", "***", 1)
-	// try get value from mysql database
-	return newContent, false
-}
-
-//FinallyHandlerFunc 放到最后，结束链的处理
-func FinallyHandlerFunc(content string) (string, bool) {
+func (f ResultHandler) ResultHandlerFunc(content []interface{}) ([]interface{}, bool) {
 	return content, true
 }
 
-func GetValueByChain(context string, functions ...HandlerFunc) string {
-	functions = append(functions, FinallyHandlerFunc)
+//AssemblyChainByFunc 组装责任链
+func AssemblyChainByFunc(context []interface{}, functions ...HandlerFunc) []interface{} {
+	functions = append(functions, ResultHandler{}.ResultHandlerFunc)
 	var newContext = context
 	for _, f := range functions {
 		value, ok := f(newContext)
