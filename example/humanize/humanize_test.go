@@ -4,7 +4,7 @@
  * @Since V1
  */
 
-package go_humanize
+package humanize
 
 import "testing"
 
