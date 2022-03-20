@@ -5,7 +5,7 @@ go get -u github.com/spf13/cobra/cobra
 
 Step 2: initialization
 ```shell
-cobra init cmd-example --pkg-name ./cmd-example
+cobra init cmd-golang --pkg-name ./cmd-golang
 ```
 
 Step 3: New command
