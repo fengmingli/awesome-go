@@ -4,7 +4,7 @@
  * @Since V1
  */
 
-package main
+package typeconversion
 
 import "fmt"
 
@@ -28,7 +28,7 @@ func (woman *Woman) Do() {
 	fmt.Println(woman.Name)
 }
 
-func main() {
+func SetMain() {
 	//Man 值
 	var man People = Man{Name: "男人"}
 	man.Do()
