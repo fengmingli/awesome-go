@@ -4,7 +4,7 @@
  * @Since V1
  */
 
-package main
+package typeconversion
 
 import "testing"
 
@@ -28,4 +28,8 @@ func TestStruct(t *testing.T) {
 }
 func TestAssert(t *testing.T) {
 	Assert()
+}
+
+func TestSetMain(t *testing.T) {
+	SetMain()
 }

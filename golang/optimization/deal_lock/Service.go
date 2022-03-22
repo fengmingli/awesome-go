@@ -17,6 +17,7 @@ type SafeMap struct {
 }
 
 var Sm = &SafeMap{data: map[string]interface{}{}}
+
 func worker1() {
 	for {
 		Sm.lock.Lock()
