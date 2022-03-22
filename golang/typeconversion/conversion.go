@@ -5,7 +5,7 @@
  * @Since V1
  */
 
-package main
+package typeconversion
 
 import (
 	"fmt"

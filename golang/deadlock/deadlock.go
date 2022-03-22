@@ -4,7 +4,7 @@
  * @Since V1
  */
 
-package dead_lock
+package deadlock
 
 import (
 	"fmt"
@@ -25,7 +25,7 @@ func DeadLock() {
 	defer rw.RUnlock()
 }
 
-var wg = sync.WaitGroup{}
+var wg sync.WaitGroup
 
 // 模拟执行业务的 goroutine
 func doBusiness(ch chan bool, i int) {

@@ -4,7 +4,7 @@
  * @Since V1
  */
 
-package dead_lock
+package deadlock
 
 import "testing"
 
