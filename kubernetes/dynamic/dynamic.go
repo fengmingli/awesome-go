@@ -1,30 +1,24 @@
 package main
 
 import (
-	"awesome-go/kubernetes/util"
+	"awesome-go/kubernetes/dynamic/lvmsimple/api"
+	"awesome-go/kubernetes/k8sclient"
+	"context"
 	"fmt"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/dynamic/dynamicinformer"
 	"k8s.io/client-go/tools/cache"
-	"k8s.io/client-go/tools/clientcmd"
-	"os"
 )
 
 func main() {
-	resource := "lvmstorages.lvmsimple.thx.com"
-	kubeconfig := os.Getenv("KUBECONFIG")
-	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
-	util.Must(err)
 
-	// 注意创建了 dynamicClient, 而不是 clientset
-	dynamicClient, err := dynamic.NewForConfig(config)
-	util.Must(err)
 
+	resource := "hxlvms.lvmsimple.hexin.io"
 	// 同样这里也是 DynamicSharedInformerFactory, 而不是 SharedInformerFactory
-	informerFactory := dynamicinformer.NewFilteredDynamicSharedInformerFactory(
-		dynamicClient, 0, "default", nil)
+	informerFactory := dynamicinformer.NewDynamicSharedInformerFactory(
+		k8sclient.GetDynamicClient(), 0)
 
 	// 通过 schema 包提供的 ParseResourceArg 由资源描述字符串解析出 GroupVersionResource
 	gvr, _ := schema.ParseResourceArg(resource)
@@ -32,6 +26,14 @@ func main() {
 		fmt.Println("cannot parse gvr")
 		return
 	}
+	unstructuredList, _err := k8sclient.GetDynamicClient().
+		Resource(*gvr).
+		Namespace("default").
+		List(context.TODO(), metav1.ListOptions{Limit: 100})
+	if _err!=nil {
+		fmt.Println(_err)
+	}
+	fmt.Println(unstructuredList)
 	// 使用 gvr 动态生成 Informer
 	informer := informerFactory.ForResource(*gvr).Informer()
 	// 熟悉的代码，熟悉的味道，只是收到的 obj 类型好像不太一样
@@ -39,7 +41,7 @@ func main() {
 		AddFunc: func(obj interface{}) {
 			// *unstructured.Unstructured 类是所有 Kubernetes 资源类型公共方法的抽象，
 			// 提供所有对公共属性的访问方法，像 GetName, GetNamespace, GetLabels 等等，
-			s, ok := obj.(*unstructured.Unstructured)
+			s, ok := obj.(*api.Hxlvm)
 			if !ok {
 				return
 			}

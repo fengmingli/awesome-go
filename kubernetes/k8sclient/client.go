@@ -1,8 +1,9 @@
-package client
+package k8sclient
 
 import (
 	"flag"
 	"fmt"
+	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"os"
@@ -10,6 +11,7 @@ import (
 )
 
 var client *kubernetes.Clientset
+var dynamicClient dynamic.Interface
 
 func init() {
 	var kubeconfig *string
@@ -22,23 +24,33 @@ func init() {
 	flag.Parse()
 	fmt.Println(*kubeconfig)
 
-	// 使用k8s.io/client-go/tools/clientcmd生成config的对象
+	// 使用k8s.io/k8sclient-go/tools/clientcmd生成config的对象
 	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	/// 使用k8s.io/client-go/kubernetes生成一个ClientSet的客户端
+	/// 使用k8s.io/k8sclient-go/kubernetes生成一个ClientSet的客户端
 	// 客户端生成后，就可以使用这个客户端与k8s API server进行交互，如Create/Retrieve/Update/Delete Resource
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err.Error())
 	}
 	client = clientset
+	forConfig, err := dynamic.NewForConfig(config)
+	if err != nil {
+
+	}
+	dynamicClient = forConfig
+
 }
 
 func GetClientSet() *kubernetes.Clientset {
 	return client
+}
+
+func GetDynamicClient() dynamic.Interface {
+	return dynamicClient
 }
 
 func homeDir() string {

@@ -1,0 +1,8 @@
+apiVersion: lvmsimple.hexin.io/v1
+kind: Hxlvm
+metadata:
+  name: hxlvm-sample-1
+spec:
+  name: "wc-test-node-36"
+  size: "1000G"
+  vgName: "hxmysql"

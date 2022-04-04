@@ -1,0 +1,16 @@
+domain: hexin.io
+layout:
+- go.kubebuilder.io/v3
+projectName: lvm-simple
+repo: hexin.io/lvm-simple
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: hexin.io
+  group: lvmsimple
+  kind: Hxlvm
+  path: hexin.io/lvm-simple/api/v1
+  version: v1
+version: "3"

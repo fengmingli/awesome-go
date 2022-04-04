@@ -1,0 +1,20 @@
+# permissions for end users to view hxlvms.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hxlvm-viewer-role
+rules:
+- apiGroups:
+  - lvmsimple.hexin.io
+  resources:
+  - hxlvms
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - lvmsimple.hexin.io
+  resources:
+  - hxlvms/status
+  verbs:
+  - get

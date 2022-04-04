@@ -1,0 +1,24 @@
+# permissions for end users to edit hxlvms.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hxlvm-editor-role
+rules:
+- apiGroups:
+  - lvmsimple.hexin.io
+  resources:
+  - hxlvms
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - lvmsimple.hexin.io
+  resources:
+  - hxlvms/status
+  verbs:
+  - get

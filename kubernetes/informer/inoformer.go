@@ -1,7 +1,7 @@
 package main
 
 import (
-	"awesome-go/kubernetes/client"
+	"awesome-go/kubernetes/k8sclient"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/tools/cache"
@@ -23,7 +23,7 @@ func podNumOfSpecifyNode() {
 		return []string{pod.Spec.NodeName}, nil
 	}
 
-	sharedInformers := informers.NewSharedInformerFactory(client.GetClientSet(), 0)
+	sharedInformers := informers.NewSharedInformerFactory(k8sclient.GetClientSet(), 0)
 	podInformer := sharedInformers.Core().V1().Pods().Informer()
 	err := podInformer.GetIndexer().AddIndexers(cache.Indexers{"nodeName": indexByPodNodeName})
 	if err != nil {
