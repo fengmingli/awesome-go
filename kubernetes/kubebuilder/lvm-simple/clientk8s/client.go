@@ -1,4 +1,4 @@
-package client
+package clientk8s
 
 import (
 	"flag"
@@ -49,7 +49,7 @@ func GetClientSet() *kubernetes.Clientset {
 	return client
 }
 
-func GetDynamicClient() dynamic.Interface{
+func GetDynamicClient() dynamic.Interface {
 	return dynamicClient
 }
 
