@@ -48,7 +48,7 @@ func (h *Handler) updateStatus(crd *v1.Hxlvm) {
 	if len(lv2.Status.PvcItems) == 0 {
 		lv2.Status.PvcItems = map[string]v1.Item{}
 	}
-	name := "pvc-ddxzdddddd-xzxfdfdzxzsd"
+	name := "pvc-xxx-xxxx"
 	item := v1.Item{}
 	i := lv2.Status.PvItems[name]
 	if i == item {
@@ -58,12 +58,16 @@ func (h *Handler) updateStatus(crd *v1.Hxlvm) {
 		lv2.Status.PvItems[item.Name] = item
 		lv2.Status.PvcItems[item.Name] = item
 	}
-
-	//if err2 := h.Status().Update(context.TODO(), lv2); err2 != nil {
-	//	fmt.Println(err2, "failed to update status", "name", crd.Name, "uid", crd.UID)
-	//}
-	getLvmResource(lv2)
-	updateLvmStatus(lv2)
+	deleteName := "pvc-ddxzdddddd-10001"
+	items := lv2.Status.PvItems
+	if len(items) > 0 {
+		for k := range items {
+			if k == deleteName {
+				delete(items, deleteName)
+			}
+		}
+	}
+	_ = updateLvmStatus(lv2)
 }
 
 func getLvmResource(lvm *v1.Hxlvm) error {
@@ -92,27 +96,21 @@ func updateLvmStatus(lvm *v1.Hxlvm) error {
 		return fmt.Errorf("lvm crd json marshal err:%v", marshal)
 	}
 
-	gvr := schema.GroupVersionResource{
-		Group:    lvm.GroupVersionKind().Group,
-		Version:  lvm.GroupVersionKind().Version,
-		Resource: lvm.Kind,
-	}
-
 	u := &unstructured.Unstructured{}
 	err1 := u.UnmarshalJSON(marshal)
 	if err != nil {
 		return fmt.Errorf("lvm crd unstructured json UnmarshalJSON err:%v", err1)
 	}
 
-	ops := metav1.UpdateOptions{}
-
 	config, _ := clientcmd.BuildConfigFromFlags("", "/Users/lifengming/.kube/config")
-	newForConfig, _ := dynamic.NewForConfig(config)
 
-	_, err2 := newForConfig.
-		Resource(gvr).
-		Namespace(lvm.GetNamespace()).
-		UpdateStatus(context.Background(), u, ops)
+	c, err1 := client.New(config, client.Options{})
+
+	if err1 != nil {
+		return fmt.Errorf("statusClient create fail err:%v", err1)
+	}
+
+	err2 := c.Status().Update(context.Background(), u)
 
 	if nil != err2 {
 		return fmt.Errorf("lvm crd unstructured json UnmarshalJSON err:%v", err1)

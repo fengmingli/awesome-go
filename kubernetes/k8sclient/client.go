@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	"os"
 	"path/filepath"
@@ -12,6 +13,7 @@ import (
 
 var client *kubernetes.Clientset
 var dynamicClient dynamic.Interface
+var resClient *rest.Config
 
 func init() {
 	var kubeconfig *string
@@ -29,6 +31,7 @@ func init() {
 	if err != nil {
 		panic(err.Error())
 	}
+	resClient = config
 
 	/// 使用k8s.io/k8sclient-go/kubernetes生成一个ClientSet的客户端
 	// 客户端生成后，就可以使用这个客户端与k8s API server进行交互，如Create/Retrieve/Update/Delete Resource
@@ -44,7 +47,9 @@ func init() {
 	dynamicClient = forConfig
 
 }
-
+func GetRestClient() *rest.Config {
+	return resClient
+}
 func GetClientSet() *kubernetes.Clientset {
 	return client
 }

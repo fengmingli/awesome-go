@@ -16,7 +16,7 @@ import (
 //Assert 断言
 //https://go.dev/ref/spec#Type_assertions
 func Assert() {
-	var x interface{} = 7 // x has dynamic type int and value 7
+	var x interface{} = 7 // x has dynamic_op type int and value 7
 	if i, ok := x.(int); ok {
 		fmt.Println(i)
 		fmt.Println(reflect.TypeOf(i))

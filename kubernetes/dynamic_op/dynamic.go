@@ -1,7 +1,7 @@
-package dynamic
+package dynamic_op
 
 import (
-	"awesome-go/kubernetes/dynamic/lvmsimple/api"
+	"awesome-go/kubernetes/dynamic_op/lvmsimple/api"
 	"awesome-go/kubernetes/k8sclient"
 	"context"
 	"encoding/json"

@@ -7,15 +7,15 @@ require (
 	github.com/dustin/go-humanize v1.0.0
 	github.com/sasha-s/go-deadlock v0.3.1
 	github.com/spf13/viper v1.10.1
-	k8s.io/api v0.23.4
-	k8s.io/client-go v0.23.4
+	k8s.io/api v0.23.0
+	k8s.io/client-go v0.23.0
 	k8s.io/klog/v2 v2.60.1
 )
 
 require (
 	github.com/rs/zerolog v1.26.1
 	github.com/spf13/cobra v1.4.0
-	k8s.io/apimachinery v0.23.5
+	k8s.io/apimachinery v0.23.0
 	sigs.k8s.io/controller-runtime v0.11.0
 )
 
@@ -52,7 +52,6 @@ require (
 	github.com/prometheus/procfs v0.6.0 // indirect
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
-	github.com/spf13/cobra-cli v1.3.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
