@@ -18,14 +18,15 @@ package controllers
 
 import (
 	"context"
-	"hexin.io/lvm-simple/pkg"
+	lvmsimplev1 "hexin.io/lvm-simple/api/v1"
+	v1 "k8s.io/api/core/v1"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/klog/v2"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/log"
-
-	lvmsimplev1 "hexin.io/lvm-simple/api/v1"
 )
 
 // HxlvmReconciler reconciles a Hxlvm object
@@ -56,7 +57,8 @@ func (r *HxlvmReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 			return ctrl.Result{}, err
 		}
 	}
-	pkg.NewHandler(r.Client).Do(crd)
+	klog.V(0).Infof(">>>>>>>>>>%v<<<<<<<<<", crd)
+	//pkg.NewHandler(r.Client).Do(crd)
 
 	return ctrl.Result{}, nil
 }
@@ -64,6 +66,8 @@ func (r *HxlvmReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 // SetupWithManager sets up the controller with the Manager.
 func (r *HxlvmReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
+		WithOptions(controller.Options{MaxConcurrentReconciles: 3}).
 		For(&lvmsimplev1.Hxlvm{}).
+		Owns(&v1.Pod{}).
 		Complete(r)
 }

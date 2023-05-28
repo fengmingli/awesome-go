@@ -1,9 +1,9 @@
 package main
 
 import (
-	"awesome-go/kubernetes/dynamic_op"
-	"awesome-go/kubernetes/k8sclient"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+	"fmt"
+	"sigs.k8s.io/controller-runtime/pkg/client/config"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
 )
 
 /**
@@ -14,12 +14,24 @@ import (
  */
 
 func main() {
-	c, err := client.New(k8sclient.GetRestClient(), client.Options{})
+	//c, err := client.New(k8sclient.GetRestClient(), client.Options{})
+	//if err != nil {
+	//}
+	//
+	//dynamicResource := dynamic_op.NewDynamicResource(c)
+	//
+	//_ = dynamicResource.Get("hxlvm-sample-1")
+	//dynamicResource.UpdateStatus(lvm)
+	cfg, err := config.GetConfig()
 	if err != nil {
 	}
 
-	dynamicResource := dynamic_op.NewDynamicResource(c)
+	// Create a new Cmd to provide shared dependencies and start components
+	mgr, err := manager.New(cfg, manager.Options{
+		Namespace: "default",
+	})
+	if err != nil {
+	}
+	fmt.Println(mgr)
 
-	_ = dynamicResource.Get("hxlvm-sample-1")
-	//dynamicResource.UpdateStatus(lvm)
 }

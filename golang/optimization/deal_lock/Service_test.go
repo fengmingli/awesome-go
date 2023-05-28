@@ -26,3 +26,8 @@ func TestService(t *testing.T) {
 	reader := bufio.NewReader(os.Stdin)
 	reader.ReadString('\n')
 }
+
+func TestName(t *testing.T) {
+	var AutoAdvertise bool
+	fmt.Println(AutoAdvertise)
+}

@@ -48,7 +48,7 @@ func (h *Handler) updateStatus(crd *v1.Hxlvm) {
 	if len(lv2.Status.PvcItems) == 0 {
 		lv2.Status.PvcItems = map[string]v1.Item{}
 	}
-	name := "pvc-xxx-xxxx"
+	name := "pvc-xxx-xxxx2"
 	item := v1.Item{}
 	i := lv2.Status.PvItems[name]
 	if i == item {
@@ -58,7 +58,7 @@ func (h *Handler) updateStatus(crd *v1.Hxlvm) {
 		lv2.Status.PvItems[item.Name] = item
 		lv2.Status.PvcItems[item.Name] = item
 	}
-	deleteName := "pvc-ddxzdddddd-10001"
+	deleteName := "pvc-ddxzdddddd-10002"
 	items := lv2.Status.PvItems
 	if len(items) > 0 {
 		for k := range items {

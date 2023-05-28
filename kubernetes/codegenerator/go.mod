@@ -1,6 +1,6 @@
 module codegenerator
 
-go 1.17
+go 1.18
 
 require (
 	k8s.io/apimachinery v0.0.0-20190425132440-17f84483f500
@@ -8,6 +8,7 @@ require (
 )
 
 require (
+	github.com/fengmingli/gotool v0.0.1 // indirect
 	github.com/gogo/protobuf v0.0.0-20171007142547-342cbe0a0415 // indirect
 	github.com/google/gofuzz v0.0.0-20170612174753-24818f796faf // indirect
 	github.com/spf13/pflag v1.0.1 // indirect

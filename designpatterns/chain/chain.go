@@ -6,28 +6,16 @@
 
 package chain
 
-//HandlerFunc 责任链处理函数
-type HandlerFunc func([]interface{}) ([]interface{}, bool)
+//Handler 责任链处理函数
+type Handler func(interface{}) (interface{}, bool)
 
-//ResultHandler 放到最后，处理链的结果
-type ResultHandler struct {
-	Params string
-}
-
-func (f ResultHandler) ResultHandlerFunc(content []interface{}) ([]interface{}, bool) {
-	return content, true
-}
-
-//AssemblyChainByFunc 组装责任链
-func AssemblyChainByFunc(context []interface{}, functions ...HandlerFunc) []interface{} {
-	functions = append(functions, ResultHandler{}.ResultHandlerFunc)
-	var newContext = context
+//GetResultByChain 获取处理后的值
+func GetResultByChain(key interface{}, functions ...Handler) interface{} {
 	for _, f := range functions {
-		value, ok := f(newContext)
-		newContext = value
+		value, ok := f(key)
 		if ok {
 			return value
 		}
 	}
-	return context
+	return nil
 }

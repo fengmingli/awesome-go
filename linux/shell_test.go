@@ -14,3 +14,7 @@ func TestName(t *testing.T) {
 	}
 	fmt.Println(output)
 }
+
+func TestUnitTest(t *testing.T) {
+	main()
+}

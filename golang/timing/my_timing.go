@@ -1,6 +1,7 @@
 package timing
 
 import (
+	"context"
 	"fmt"
 	"time"
 )
@@ -39,6 +40,39 @@ func MyTime2(t *time.Timer, ch chan bool) {
 				fmt.Println("timer Stop")
 				return
 			}
+		}
+	}
+}
+
+func MyTick() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	metricsCh := make(chan int64)
+	volumeCh := make(chan int64)
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				fmt.Println("Done:")
+				return
+			case met := <-metricsCh:
+				fmt.Println("metricsCh:", met)
+			case vc := <-volumeCh:
+				fmt.Println("volumeCh:", vc)
+			}
+		}
+	}()
+
+	ticker := time.Tick(10 * time.Second)
+	count := 0
+	count1 := 0
+	for range ticker {
+		count = count + 1
+		count1 = count1 + 2
+		metricsCh <- int64(count)
+		volumeCh <- int64(count1)
+		if count1 == 10 {
+			return
 		}
 	}
 }

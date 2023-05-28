@@ -3,8 +3,10 @@ package linux
 import (
 	"bufio"
 	"fmt"
+	"github.com/fengmingli/gotool/wait"
 	"io"
 	"os/exec"
+	"time"
 )
 
 func ExecCommand(commandName string, params []string) bool {
@@ -37,4 +39,13 @@ func ExecCommand(commandName string, params []string) bool {
 	//阻塞直到该命令执行完成，该命令必须是被Start方法开始执行的
 	cmd.Wait()
 	return true
+}
+
+func UnitTest() {
+	ch := make(chan struct{})
+	defer close(ch)
+	wait.Until(func() {
+		fmt.Println("===>", time.Now().Second())
+	}, 1*time.Second, ch)
+
 }

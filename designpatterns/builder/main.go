@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+/**
+ * Builder 模式
+ * @Author: LFM
+ * @Date: 2023/5/28 00:06
+ * @Since: 1.0.0
+ * @Desc: TODO
+ */
+
 //Person struct
 type Person struct {
 	// Personal details
