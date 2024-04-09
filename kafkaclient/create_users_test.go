@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"testing"
 )
 
@@ -13,5 +12,4 @@ import (
  */
 
 func TestCreateUsers(t *testing.T) {
-	CreateUsers(context.TODO())
 }

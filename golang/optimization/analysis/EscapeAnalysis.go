@@ -6,7 +6,9 @@
 
 package analysis
 
-import "math/rand"
+import (
+	"math/rand"
+)
 
 func generate8191() {
 	nums := make([]int, 8191) // < 64KB
@@ -29,9 +31,22 @@ func generate(n int) {
 	}
 }
 
-//go test -gcflags=-m .
+var newA, newB Worker
+
+// go test -gcflags=-m .
 func main() {
-	generate8191()
-	generate8192()
-	generate(1)
+	manager := NewWorkerManager()
+	manager.SetWorker(newA)
+	manager.Split()
+	manager.Send()
+
+	manager.SetWorker(newB)
+	manager.Send()
+	manager.Split()
+}
+
+func init() {
+	newA = NewA()
+	newB = NewA()
+
 }

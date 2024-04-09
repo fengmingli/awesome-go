@@ -4,7 +4,7 @@
  * @Since V1
  */
 
-package viper
+package main
 
 import (
 	"fmt"

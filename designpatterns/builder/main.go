@@ -10,7 +10,7 @@ import "fmt"
  * @Desc: TODO
  */
 
-//Person struct
+// Person struct
 type Person struct {
 	// Personal details
 	name, address, pin string
@@ -19,78 +19,78 @@ type Person struct {
 	salary                         int
 }
 
-//PersonBuilder struct
+// PersonBuilder struct
 type PersonBuilder struct {
 	person *Person
 }
 
-//PersonAddressBuilder facet of PersonBuilder
+// PersonAddressBuilder facet of PersonBuilder
 type PersonAddressBuilder struct {
 	PersonBuilder
 }
 
-//PersonJobBuilder facet of PersonBuilder
+// PersonJobBuilder facet of PersonBuilder
 type PersonJobBuilder struct {
 	PersonBuilder
 }
 
-//NewPersonBuilder constructor for PersonBuilder
+// NewPersonBuilder constructor for PersonBuilder
 func NewPersonBuilder() *PersonBuilder {
 	return &PersonBuilder{person: &Person{}}
 }
 
-//Lives chains to type *PersonBuilder and returns a *PersonAddressBuilder
+// Lives chains to type *PersonBuilder and returns a *PersonAddressBuilder
 func (b *PersonBuilder) Lives() *PersonAddressBuilder {
 	return &PersonAddressBuilder{*b}
 }
 
-//Works chains to type *PersonBuilder and returns a *PersonJobBuilder
+// Works chains to type *PersonBuilder and returns a *PersonJobBuilder
 func (b *PersonBuilder) Works() *PersonJobBuilder {
 	return &PersonJobBuilder{*b}
 }
 
-//At adds address to person
+// At adds address to person
 func (a *PersonAddressBuilder) At(address string) *PersonAddressBuilder {
 	a.person.address = address
 	return a
 }
 
-//WithPostalCode adds postal code to person
+// WithPostalCode adds postal code to person
 func (a *PersonAddressBuilder) WithPostalCode(pin string) *PersonAddressBuilder {
 	a.person.pin = pin
 	return a
 }
 
-//As adds position to person
+// As adds position to person
 func (j *PersonJobBuilder) As(position string) *PersonJobBuilder {
 	j.person.position = position
 	return j
 }
 
-//For adds company to person
+// For adds company to person
 func (j *PersonJobBuilder) For(company string) *PersonJobBuilder {
 	j.person.company = company
 	return j
 }
 
-//In adds company address to person
+// In adds company address to person
 func (j *PersonJobBuilder) In(companyAddress string) *PersonJobBuilder {
 	j.person.workAddress = companyAddress
 	return j
 }
 
-//WithSalary adds salary to person
+// WithSalary adds salary to person
 func (j *PersonJobBuilder) WithSalary(salary int) *PersonJobBuilder {
 	j.person.salary = salary
 	return j
 }
 
-//Build builds a person from PersonBuilder
+// Build builds a person from PersonBuilder
 func (b *PersonBuilder) Build() *Person {
 	return b.person
 }
 
-//RunBuilderFacet example
+// RunBuilderFacet example
 func RunBuilderFacet() {
 	pb := NewPersonBuilder()
 	pb.Lives().
@@ -108,5 +108,9 @@ func RunBuilderFacet() {
 }
 
 func main() {
-	RunBuilderFacet()
+	//RunBuilderFacet()
+	server := NewServer(withMaxConn(123))
+	fmt.Printf("%+v\n", server)
+
+	fmt.Printf("%v\n", server)
 }

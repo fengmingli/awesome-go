@@ -9,5 +9,16 @@ package analysis
 import "testing"
 
 func TestEscapeAnalysisExample(t *testing.T) {
-	main()
+	manager := NewWorkerManager()
+	factory := manager.DynamicDataSourceFactory("A")
+	factory.Split()
+
+	factoryB := manager.DynamicDataSourceFactory("B")
+	factoryB.Send()
+
+	factoryA2 := manager.DynamicDataSourceFactory("A")
+	factoryA2.Send()
+
+	factoryB2 := manager.DynamicDataSourceFactory("B")
+	factoryB2.Split()
 }
