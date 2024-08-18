@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"sync"
 	"time"
+
+	"awesome-go/golang/config"
 )
 
 // JobStatus 定义工作状态类型
@@ -169,6 +171,12 @@ func (s *Scheduler) Wait() {
 }
 
 func main() {
+
+	newServer := config.NewServer("127.0.0.1", 8083,
+		config.SetTimeout(100))
+
+	newServer.Start()
+
 	jobChannel := make(chan Job)
 	scheduler := NewScheduler(5, jobChannel)
 	scheduler.Start()
